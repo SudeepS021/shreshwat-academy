@@ -1,0 +1,187 @@
+```html
+{% extends "base.html" %}
+{% block title %}Student Dashboard | Shreshwat Academy{% endblock %}
+
+{% block content %}
+
+<section class="dashboard-hero">
+    <span class="eyebrow">STUDENT DASHBOARD</span>
+    <h1>Welcome, <span>{{ user_name }}.</span></h1>
+    <p>
+        Welcome to Shreshwat Academy!
+        Continue your learning journey and build skills for your future.
+    </p>
+</section>
+
+<section class="section">
+    <div class="section-heading">
+        <div>
+            <span class="eyebrow">YOUR LEARNING SPACE</span>
+            <h2>Learning <span>Overview.</span></h2>
+        </div>
+    </div>
+
+    <div class="course-grid">
+        <article class="course-card">
+            <div class="course-icon python-icon">01</div>
+            <h3>Available Courses</h3>
+            <h2 style="color:#0759b8; font-size:32px;">2</h2>
+            <p>Python Programming and C Programming.</p>
+        </article>
+
+        <article class="course-card">
+            <div class="course-icon c-icon">02</div>
+            <h3>My Enrollments</h3>
+            <h2 style="color:#0759b8; font-size:32px;">
+                {{ enrolled_courses|length }}
+            </h2>
+            <p>Courses you have successfully enrolled in.</p>
+        </article>
+    </div>
+</section>
+
+<!-- My Enrolled Courses -->
+<section class="section" style="padding-top:20px;">
+
+    <div class="section-heading">
+        <div>
+            <span class="eyebrow">YOUR LEARNING JOURNEY</span>
+            <h2>My Enrolled <span>Courses.</span></h2>
+        </div>
+    </div>
+
+    <div class="course-grid">
+
+        {% for course in enrolled_courses %}
+
+            {% if course["course_id"] == "python" %}
+                <article class="course-card python-card">
+                    <div class="course-icon python-icon">Py</div>
+                    <h3>Python Programming</h3>
+                    <p>You are successfully enrolled in Python Programming.</p>
+
+                    <div class="course-meta">
+                        <span>11 chapters</span>
+                        <strong>ENROLLED</strong>
+                    </div>
+
+                    <a href="{{ url_for('python_course') }}"
+                       class="button primary"
+                       style="display:block; text-align:center; margin-top:18px;">
+                        Start Learning →
+                    </a>
+                </article>
+
+            {% elif course["course_id"] == "c" %}
+                <article class="course-card c-card">
+                    <div class="course-icon c-icon">C</div>
+                    <h3>C Programming</h3>
+                    <p>You are successfully enrolled in C Programming.</p>
+
+                    <div class="course-meta">
+                        <span>10 planned chapters</span>
+                        <strong>ENROLLED</strong>
+                    </div>
+                </article>
+            {% endif %}
+
+        {% else %}
+
+            <article class="course-card" style="text-align:center; padding:35px;">
+                <h3>No courses enrolled yet!</h3>
+                <p>Explore our courses and enroll for free to start learning.</p>
+                <a href="{{ url_for('courses') }}" class="button primary">
+                    Explore Courses →
+                </a>
+            </article>
+
+        {% endfor %}
+
+    </div>
+</section>
+
+<!-- Available Courses -->
+<section class="section" style="padding-top:20px;">
+
+    <div class="section-heading">
+        <div>
+            <span class="eyebrow">EXPLORE MORE</span>
+            <h2>Available <span>Courses.</span></h2>
+        </div>
+
+        <a class="text-link" href="{{ url_for('courses') }}">
+            View all courses →
+        </a>
+    </div>
+
+    <div class="course-grid">
+
+        {% set enrolled_ids = enrolled_courses|map(attribute='course_id')|list %}
+
+        {% if 'python' not in enrolled_ids %}
+        <article class="course-card python-card">
+            <div class="course-icon python-icon">Py</div>
+            <h3>Python Programming</h3>
+            <p>Learn Python through structured chapters and video lessons.</p>
+            <div class="course-meta">
+                <span>11 chapters</span>
+                <strong>FREE</strong>
+            </div>
+            <a href="{{ url_for('courses') }}" class="button primary">
+                Enroll Now →
+            </a>
+        </article>
+        {% endif %}
+
+        {% if 'c' not in enrolled_ids %}
+        <article class="course-card c-card">
+            <div class="course-icon c-icon">C</div>
+            <h3>C Programming</h3>
+            <p>Build your programming foundation with C language.</p>
+            <div class="course-meta">
+                <span>10 planned chapters</span>
+                <strong>FREE</strong>
+            </div>
+            <a href="{{ url_for('courses') }}" class="button primary">
+                Enroll Now →
+            </a>
+        </article>
+        {% endif %}
+
+    </div>
+</section>
+
+<!-- Certificates -->
+<section class="section" style="padding-top:20px;">
+    <div class="section-heading">
+        <div>
+            <span class="eyebrow">YOUR ACHIEVEMENTS</span>
+            <h2>My <span>Certificates.</span></h2>
+        </div>
+    </div>
+
+    <article class="course-card"
+             style="background:#f5f9ff; text-align:center; padding:40px;">
+        <div style="font-size:38px; margin-bottom:10px;">🏆</div>
+        <h3>Certificates will appear here</h3>
+        <p style="margin:auto;">
+            Complete your courses, chapter quizzes and final assessments
+            to qualify for your free Shreshwat Academy certificate.
+        </p>
+    </article>
+</section>
+
+<section class="final-cta">
+    <div>
+        <span class="eyebrow">KEEP LEARNING</span>
+        <h2>Your future is built one skill at a time.</h2>
+        <p>Learn. Grow. Excel. — Shreshwat Academy</p>
+    </div>
+
+    <a class="button light-button" href="{{ url_for('courses') }}">
+        Explore Courses →
+    </a>
+</section>
+
+{% endblock %}
+```

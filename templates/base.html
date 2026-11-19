@@ -1,0 +1,82 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Shreshwat Academy — free programming courses, quizzes, and certificates.">
+  <title>{% block title %}Shreshwat Academy{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="{{ url_for('index') }}" aria-label="Shreshwat Academy home">
+    <img class="brand-logo"
+         src="{{ url_for('static', filename='images/shreshwat-logo.png') }}"
+         alt="Shreshwat Academy Logo">
+
+```
+<span class="brand-text">
+  <strong>SHRESHWAT</strong>
+  <small>ACADEMY</small>
+</span>
+```
+
+  </a>
+
+<button class="menu-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Toggle navigation">☰</button>
+
+  <nav class="nav-links">
+    <a href="{{ url_for('index') }}">Home</a>
+    <a href="{{ url_for('courses') }}">Courses</a>
+    <a href="{{ url_for('index') }}#why-us">Why Us?</a>
+
+```
+{% if logged_in %}
+  <a href="{{ url_for('dashboard') }}">Dashboard</a>
+  <a class="nav-button" href="{{ url_for('logout') }}">Log out</a>
+{% else %}
+  <a href="{{ url_for('login') }}">Log in</a>
+  <a class="nav-button" href="{{ url_for('register') }}">Join for Free</a>
+{% endif %}
+```
+
+  </nav>
+</header>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %} <div class="flash-wrap">
+{% for category, message in messages %} <div class="flash {{ category }}">{{ message }}</div>
+{% endfor %} </div>
+{% endif %}
+{% endwith %}
+
+<main>{% block content %}{% endblock %}</main>
+
+<footer class="site-footer">
+  <div class="footer-brand">
+    <img class="footer-logo"
+         src="{{ url_for('static', filename='images/shreshwat-logo.png') }}"
+         alt="Shreshwat Academy Logo">
+
+```
+<div>
+  <strong>SHRESHWAT ACADEMY</strong>
+  <p>Learn. Grow. Excel.</p>
+</div>
+```
+
+  </div>
+
+  <div class="footer-links">
+    <a href="{{ url_for('courses') }}">Courses</a>
+    <a href="{{ url_for('index') }}#about">About us</a>
+    <a href="{{ url_for('index') }}#why-us">Why choose us</a>
+  </div>
+
+  <p class="copyright">© 2026 Shreshwat Academy. Learn freely, grow confidently.</p>
+</footer>
+
+</body>
+</html>

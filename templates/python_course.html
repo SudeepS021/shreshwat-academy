@@ -1,0 +1,602 @@
+
+{% extends "base.html" %}
+{% block title %}Python Programming | Shreshwat Academy{% endblock %}
+
+{% block content %}
+
+<!-- PAGE HEADER -->
+<section class="page-hero">
+
+    <span class="eyebrow">SHRESHWAT ACADEMY</span>
+
+    <h1>Python <span>Programming.</span></h1>
+
+    <p>
+        Welcome, {{ user_name }}!
+        Complete all chapters, pass all quizzes
+        and earn your certificate.
+    </p>
+
+</section>
+
+<!-- FREE PYTHON HANDBOOK -->
+<section class="section" style="padding-top:20px;">
+
+    <article class="course-card"
+             style="background:#f5f9ff; border:1px solid #dce7f5;">
+
+        <div class="course-status" style="color:#15803d;">
+            100% FREE STUDY MATERIAL
+        </div>
+
+        <h2>Python Handbook 📘</h2>
+
+        <p>
+            Download the complete Python Programming Handbook containing
+            all 11 chapters in one PDF. Read and learn offline anytime.
+        </p>
+
+        <div class="course-meta">
+            <span>All 11 Chapters · Complete PDF</span>
+            <strong>FREE</strong>
+        </div>
+
+        <a href="{{ url_for('static', filename='notes/python_notes_shreshwat_academy.pdf') }}"
+           class="button primary"
+           download
+           style="display:inline-block; margin-top:18px;">
+            ↓ Download Python Notes (PDF)
+        </a>
+
+        <p style="font-size:13px; margin-top:12px;">
+            Free notes for Shreshwat Academy students.
+        </p>
+
+    </article>
+
+</section>
+
+<!-- YOUTUBE CHANNEL SUBSCRIBE SECTION -->
+<section class="section" style="padding-top:10px;">
+
+    <article class="course-card"
+             style="border:1px solid #f0c8c8; background:#fffafa;">
+
+        <span class="eyebrow">SUPPORT OUR CHANNEL</span>
+
+        <h3>Subscribe to Shreshwat Academy</h3>
+
+        <p>
+            Support our channel by subscribing to Shreshwat Academy.
+            Your support helps us create more free learning content.
+        </p>
+
+        <div style="margin-top:18px;">
+
+            <a href="{{ youtube_channel_url }}"
+               class="button primary"
+               target="_blank"
+               rel="noopener noreferrer"
+               style="display:inline-block; background:#dc2626; border-color:#dc2626;">
+
+                ▶ Subscribe to Channel
+
+            </a>
+
+        </div>
+
+        <p style="font-size:14px; margin-top:18px; color:#b91c1c; font-weight:600;">
+
+            ⚠️ Important: Students who are not subscribed to Shreshwat Academy
+            may not receive their course certificate.
+
+        </p>
+
+    </article>
+
+</section>
+
+<!-- COURSE CONTENT -->
+<section class="section" style="padding-top:25px;">
+
+    <div class="section-heading">
+
+        <div>
+
+            <span class="eyebrow">YOUR LEARNING JOURNEY</span>
+
+            <h2>Python <span>Chapters.</span></h2>
+
+        </div>
+
+    </div>
+
+    <div style="display:flex; flex-direction:column; gap:15px;">
+
+        {% for chapter in chapters %}
+
+            <!-- CHAPTER CARD -->
+            <article class="course-card" style="padding:22px;">
+
+                <span class="eyebrow">
+                    CHAPTER {{ chapter.number }}
+                </span>
+
+                <h3>{{ chapter.title }}</h3>
+
+                {% if chapter.progress.completed %}
+
+                    <span class="course-status">
+                        ✓ COMPLETED
+                    </span>
+
+                    <p style="color:#15803d; margin-top:10px;">
+                        Video requirement completed.
+                    </p>
+
+                {% elif chapter.unlocked %}
+
+                    <span class="course-status">
+                        UNLOCKED
+                    </span>
+
+                    <p style="margin-top:10px;">
+                        Watch at least 80% of this video to complete the chapter.
+                    </p>
+
+                    <div
+                        id="player-{{ chapter.number }}"
+                        class="chapter-player"
+                        data-chapter="{{ chapter.number }}"
+                        data-video-id="{{ chapter.video_id }}"
+                        data-save-url="{{ url_for('save_python_progress', chapter_number=chapter.number) }}"
+                        data-completed="{{ chapter.progress.completed|int }}"
+                        data-watched="{{ chapter.progress.watched_seconds|float }}"
+                        data-duration="{{ chapter.progress.video_duration|float }}"
+                        style="
+                            width:100%;
+                            aspect-ratio:16/9;
+                            margin-top:15px;
+                        ">
+                    </div>
+
+                    <p style="margin-top:12px;">
+                        Video completion:
+                        <strong id="progress-text-{{ chapter.number }}">
+                            Loading progress...
+                        </strong>
+                    </p>
+
+                    <div style="
+                        background:#e5e7eb;
+                        height:12px;
+                        border-radius:20px;
+                        overflow:hidden;
+                    ">
+
+                        <div
+                            id="progress-bar-{{ chapter.number }}"
+                            style="
+                                height:100%;
+                                width:0%;
+                                background:#16a34a;
+                                transition:width 0.3s;
+                            ">
+                        </div>
+
+                    </div>
+
+                    <p id="message-{{ chapter.number }}"
+                       style="margin-top:10px; color:#15803d;">
+
+                        Keep watching to reach 80%.
+
+                    </p>
+
+                {% else %}
+
+                    <span class="course-status">
+                        🔒 LOCKED
+                    </span>
+
+                    <p style="margin-top:10px;">
+                        Pass Quiz {{ chapter.number - 1 }}
+                        to unlock this chapter.
+                    </p>
+
+                {% endif %}
+
+            </article>
+
+            <!-- QUIZ CARD -->
+            <article class="course-card"
+                     style="
+                        padding:20px 22px;
+                        background:#f8faff;
+                     ">
+
+                <span class="eyebrow">
+                    QUIZ {{ chapter.number }}
+                </span>
+
+                <h3>Chapter {{ chapter.number }} Quiz</h3>
+
+                <p>
+                    5 multiple-choice questions.
+                    Score at least 4/5 (80%) to pass.
+                </p>
+
+                {% if chapter.quiz_passed %}
+
+                    <span class="course-status">
+                        ✓ PASSED
+                    </span>
+
+                    <p style="color:#15803d; margin-top:10px;">
+                        Quiz completed successfully.
+                    </p>
+
+                {% elif chapter.progress.completed %}
+
+                    <span class="course-status">
+                        UNLOCKED
+                    </span>
+
+                    {% if chapter.latest_attempt %}
+
+                        <p style="margin-top:10px;">
+                            Previous score:
+                            {{ chapter.latest_attempt.score }}/5.
+                            You can try again.
+                        </p>
+
+                    {% endif %}
+
+                    <a
+                        href="{{ url_for('python_quiz', chapter_number=chapter.number) }}"
+                        class="button primary"
+                        style="display:inline-block; margin-top:12px;">
+
+                        Start Quiz {{ chapter.number }} →
+
+                    </a>
+
+                {% else %}
+
+                    <span class="course-status">
+                        🔒 LOCKED
+                    </span>
+
+                    <p style="margin-top:10px;">
+                        Complete Chapter {{ chapter.number }}
+                        video to unlock this quiz.
+                    </p>
+
+                {% endif %}
+
+            </article>
+
+        {% endfor %}
+
+        <!-- FINAL EXAM -->
+        <article class="course-card" style="padding:25px;">
+
+            <span class="eyebrow">FINAL ASSESSMENT</span>
+
+            <h2>Python Final Exam 🏆</h2>
+
+            <p>
+                Complete all 11 chapters and pass all 11 quizzes
+                to qualify for the final examination.
+            </p>
+
+            <div class="course-meta">
+
+                <span>50 Questions</span>
+
+                <strong>80% TO PASS</strong>
+
+            </div>
+
+            {% if certificate %}
+
+                <span class="course-status">
+                    ✓ CERTIFICATE EARNED
+                </span>
+
+                <p style="color:#15803d; margin-top:12px;">
+                    Congratulations! You have successfully
+                    completed Python Programming.
+                </p>
+
+                <a
+                    href="{{ url_for('python_certificate') }}"
+                    class="button primary"
+                    style="display:inline-block; margin-top:15px;">
+
+                    View My Certificate →
+
+                </a>
+
+            {% elif course_completed %}
+
+                <span class="course-status">
+                    ✓ UNLOCKED
+                </span>
+
+                <p style="margin-top:10px;">
+                    All 11 chapter quizzes are completed.
+                    You can now attempt the final examination.
+                </p>
+
+                <a
+                    href="{{ url_for('python_final_exam') }}"
+                    class="button primary"
+                    style="display:inline-block; margin-top:15px;">
+
+                    Start Final Exam →
+
+                </a>
+
+            {% else %}
+
+                <span class="course-status">
+                    🔒 LOCKED
+                </span>
+
+                <p style="margin-top:10px;">
+                    Pass all 11 chapter quizzes to unlock the final exam.
+                </p>
+
+            {% endif %}
+
+        </article>
+
+    </div>
+
+</section>
+
+<!-- YOUTUBE VIDEO TRACKING -->
+<script>
+
+let activeTimer = null;
+let activePlayer = null;
+let isSaving = false;
+
+function stopVideoTracking() {
+
+    if (activeTimer) {
+
+        clearInterval(activeTimer);
+        activeTimer = null;
+
+    }
+
+    activePlayer = null;
+
+}
+
+function updateChapterProgress(chapterNumber, percent) {
+
+    const bar = document.getElementById(
+        "progress-bar-" + chapterNumber
+    );
+
+    const text = document.getElementById(
+        "progress-text-" + chapterNumber
+    );
+
+    const message = document.getElementById(
+        "message-" + chapterNumber
+    );
+
+    if (bar) {
+        bar.style.width = percent + "%";
+    }
+
+    if (text) {
+        text.textContent = Math.floor(percent) + "% watched";
+    }
+
+    if (message && percent >= 80) {
+
+        message.textContent =
+            "Chapter completed! Refresh the page to open its quiz.";
+
+    }
+
+}
+
+function createChapterPlayer(element) {
+
+    const chapterNumber = Number(element.dataset.chapter);
+
+    const saveUrl = element.dataset.saveUrl;
+
+    let completed = element.dataset.completed === "1";
+
+    const initialWatched = Number(element.dataset.watched);
+
+    const initialDuration = Number(element.dataset.duration);
+
+    let savedPercent = completed
+        ? 100
+        : (
+            initialDuration > 0
+            ? Math.min(100, initialWatched / initialDuration * 100)
+            : 0
+        );
+
+    updateChapterProgress(chapterNumber, savedPercent);
+
+    const player = new YT.Player(element.id, {
+
+        videoId: element.dataset.videoId,
+
+        playerVars: {
+            playsinline: 1,
+            rel: 0
+        },
+
+        events: {
+
+            onReady: function(event) {
+
+                if (completed) {
+                    updateChapterProgress(chapterNumber, 100);
+                }
+
+            },
+
+            onStateChange: function(event) {
+
+                if (event.data === YT.PlayerState.PLAYING) {
+
+                    if (completed) {
+                        return;
+                    }
+
+                    stopVideoTracking();
+
+                    let lastTime = player.getCurrentTime();
+
+                    activePlayer = player;
+
+                    activeTimer = setInterval(async function() {
+
+                        if (
+                            isSaving ||
+                            player.getPlayerState() !== YT.PlayerState.PLAYING ||
+                            completed
+                        ) {
+                            return;
+                        }
+
+                        const currentTime = player.getCurrentTime();
+
+                        const duration = player.getDuration();
+
+                        const difference = currentTime - lastTime;
+
+                        lastTime = currentTime;
+
+                        if (
+                            difference <= 0 ||
+                            difference > 7 ||
+                            duration <= 0
+                        ) {
+                            return;
+                        }
+
+                        isSaving = true;
+
+                        try {
+
+                            const response = await fetch(saveUrl, {
+
+                                method: "POST",
+
+                                headers: {
+                                    "Content-Type": "application/json"
+                                },
+
+                                body: JSON.stringify({
+
+                                    seconds: difference,
+
+                                    duration: duration
+
+                                })
+
+                            });
+
+                            if (!response.ok) {
+                                console.error("Progress saving failed.");
+                                return;
+                            }
+
+                            const result = await response.json();
+
+                            savedPercent = Math.max(
+                                savedPercent,
+                                result.percent
+                            );
+
+                            updateChapterProgress(
+                                chapterNumber,
+                                savedPercent
+                            );
+
+                            if (result.completed) {
+
+                                completed = true;
+
+                                stopVideoTracking();
+
+                                const message = document.getElementById(
+                                    "message-" + chapterNumber
+                                );
+
+                                if (message) {
+
+                                    message.textContent =
+                                        "Chapter completed! Refresh the page to unlock the quiz.";
+
+                                }
+
+                            }
+
+                        } catch (error) {
+
+                            console.error(
+                                "Video progress error:",
+                                error
+                            );
+
+                        } finally {
+
+                            isSaving = false;
+
+                        }
+
+                    }, 5000);
+
+                } else {
+
+                    if (activePlayer === player) {
+                        stopVideoTracking();
+                    }
+
+                }
+
+            }
+
+        }
+
+    });
+
+}
+
+// YOUTUBE API CALLBACK
+function onYouTubeIframeAPIReady() {
+
+    const elements = document.querySelectorAll(".chapter-player");
+
+    elements.forEach(function(element) {
+
+        createChapterPlayer(element);
+
+    });
+
+}
+
+// LOAD YOUTUBE API
+const youtubeScript = document.createElement("script");
+
+youtubeScript.src = "https://www.youtube.com/iframe_api";
+
+document.head.appendChild(youtubeScript);
+
+</script>
+
+{% endblock %}

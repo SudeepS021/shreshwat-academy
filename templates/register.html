@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% block title %}Join for Free | Shreshwat Academy{% endblock %}
+
+{% block content %}
+
+<section class="auth-page">
+
+    <div class="auth-decoration">
+        <span class="eyebrow">START FOR FREE</span>
+
+        <h1>Invest in your skills, not course fees.</h1>
+
+        <p>
+            Create an account to prepare for your learning journey
+            with Shreshwat Academy.
+        </p>
+
+        <div class="auth-mini">
+            Learn. <span>Grow.</span> Excel.
+        </div>
+    </div>
+
+    <div class="auth-card">
+
+        <span class="eyebrow">STUDENT ACCOUNT</span>
+
+        <h2>Create your account</h2>
+
+        <p class="muted">Registration is free.</p>
+
+        <form method="post">
+
+            <label for="name">Full name</label>
+
+            <input
+                id="name"
+                type="text"
+                name="name"
+                autocomplete="name"
+                required
+                maxlength="100"
+                placeholder="Your full name"
+            >
+
+            <label for="email">Email address</label>
+
+            <input
+                id="email"
+                type="email"
+                name="email"
+                autocomplete="email"
+                required
+                maxlength="254"
+                placeholder="you@example.com"
+            >
+
+            <label for="dob">Date of Birth</label>
+
+            <input
+                id="dob"
+                type="date"
+                name="dob"
+                autocomplete="bday"
+                required
+            >
+
+            <label for="password">Create password</label>
+
+            <input
+                id="password"
+                type="password"
+                name="password"
+                autocomplete="new-password"
+                minlength="8"
+                required
+                placeholder="At least 8 characters"
+            >
+
+            <button class="button primary full-button" type="submit">
+                Create Free Account
+            </button>
+
+        </form>
+
+        <p class="auth-switch">
+            Already registered?
+            <a href="{{ url_for('login') }}">Log in</a>
+        </p>
+
+        <p class="tiny-note">
+            Your date of birth will be used for account recovery.
+            Keep your account details private.
+        </p>
+
+    </div>
+
+</section>
+
+{% endblock %}

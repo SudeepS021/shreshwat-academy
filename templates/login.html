@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% block title %}Log in | Shreshwat Academy{% endblock %}
+
+{% block content %}
+
+<section class="auth-page">
+
+    <div class="auth-decoration">
+
+        <span class="eyebrow">WELCOME BACK</span>
+
+        <h1>Your learning journey continues here.</h1>
+
+        <p>
+            Log in to access your Shreshwat Academy account.
+        </p>
+
+        <div class="auth-mini">
+            Learn. <span>Grow.</span> Excel.
+        </div>
+
+    </div>
+
+    <div class="auth-card">
+
+        <span class="eyebrow">STUDENT ACCOUNT</span>
+
+        <h2>Log in</h2>
+
+        <p class="muted">
+            Enter your account details below.
+        </p>
+
+        <form method="post">
+
+            <label for="email">Email address</label>
+
+            <input
+                id="email"
+                type="email"
+                name="email"
+                autocomplete="email"
+                required
+                placeholder="you@example.com"
+            >
+
+            <label for="password">Password</label>
+
+            <input
+                id="password"
+                type="password"
+                name="password"
+                autocomplete="current-password"
+                required
+                placeholder="Your password"
+            >
+
+            <p style="text-align:right; margin:8px 0 18px;">
+                <a href="{{ url_for('forgot_password') }}">
+                    Forgot Password?
+                </a>
+            </p>
+
+            <button class="button primary full-button" type="submit">
+                Log in
+            </button>
+
+        </form>
+
+        <p class="auth-switch">
+            New to Shreshwat Academy?
+            <a href="{{ url_for('register') }}">Create an account</a>
+        </p>
+
+    </div>
+
+</section>
+
+{% endblock %}

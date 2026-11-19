@@ -1,0 +1,94 @@
+```html
+{% extends "base.html" %}
+{% block title %}Courses | Shreshwat Academy{% endblock %}
+
+{% block content %}
+
+<section class="page-hero">
+    <span class="eyebrow">EXPLORE & LEARN</span>
+
+    <h1>Courses built for <span>your next step.</span></h1>
+
+    <p>
+        Start learning programming with structured chapters,
+        video lessons, quizzes and assessments.
+    </p>
+</section>
+
+<section class="section course-list-section">
+
+    <div class="course-grid">
+
+        <!-- Python Programming -->
+        <article class="course-card python-card">
+
+            <div class="course-icon python-icon">Py</div>
+
+            <div class="course-status">PROGRAMMING</div>
+
+            <h3>Python Programming</h3>
+
+            <p>
+                Learn Python through 11 chapters,
+                video lessons, chapter quizzes and a final assessment.
+            </p>
+
+            <div class="course-meta">
+                <span>11 chapters</span>
+                <strong>FREE</strong>
+            </div>
+
+            <span class="coming-soon">Course content available</span>
+
+            <form method="POST"
+                  action="{{ url_for('enroll', course_id='python') }}">
+
+                <button type="submit" class="button primary"
+                        style="width:100%; margin-top:18px;">
+                    Enroll Now →
+                </button>
+
+            </form>
+
+        </article>
+
+
+        <!-- C Programming -->
+        <article class="course-card c-card">
+
+            <div class="course-icon c-icon">C</div>
+
+            <div class="course-status">PROGRAMMING</div>
+
+            <h3>C Programming</h3>
+
+            <p>
+                Build a foundation in C with structured chapters,
+                examples and knowledge checks.
+            </p>
+
+            <div class="course-meta">
+                <span>10 chapters planned</span>
+                <strong>FREE</strong>
+            </div>
+
+            <span class="coming-soon">Content setup in progress</span>
+
+            <form method="POST"
+                  action="{{ url_for('enroll', course_id='c') }}">
+
+                <button type="submit" class="button primary"
+                        style="width:100%; margin-top:18px;">
+                    Enroll Now →
+                </button>
+
+            </form>
+
+        </article>
+
+    </div>
+
+</section>
+
+{% endblock %}
+```

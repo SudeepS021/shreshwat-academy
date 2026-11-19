@@ -1,0 +1,93 @@
+
+{% extends "base.html" %}
+{% block title %}Python Quiz {{ chapter_number }} | Shreshwat Academy{% endblock %}
+
+{% block content %}
+
+<section class="page-hero">
+    <span class="eyebrow">SHRESHWAT ACADEMY</span>
+
+    <h1>Chapter {{ chapter_number }} <span>Quiz.</span></h1>
+
+    <p>{{ chapter_title }}</p>
+</section>
+
+<section class="section">
+
+    <article class="course-card">
+
+        <div class="course-meta">
+            <span>5 Multiple Choice Questions</span>
+            <strong>80% TO PASS</strong>
+        </div>
+
+        <p style="margin-top:15px;">
+            Answer all five questions.
+            You need at least four correct answers to pass.
+            You can retry if you do not pass.
+        </p>
+
+        <form method="POST"
+              action="{{ url_for('python_quiz', chapter_number=chapter_number) }}">
+
+            {% for question in questions %}
+
+                {% set question_number = loop.index %}
+
+                <div style="
+                    margin-top:25px;
+                    padding:20px;
+                    background:#f5f9ff;
+                    border-radius:12px;
+                ">
+
+                    <h3>
+                        Question {{ question_number }}.
+                        {{ question.question }}
+                    </h3>
+
+                    {% for key, option in question.options.items() %}
+
+                        <label style="
+                            display:block;
+                            padding:12px;
+                            margin-top:8px;
+                            background:white;
+                            border:1px solid #dce7f5;
+                            border-radius:8px;
+                            cursor:pointer;
+                        ">
+
+                            <input
+                                type="radio"
+                                name="q{{ question_number }}"
+                                value="{{ key }}"
+                                required
+                            >
+
+                            <strong>{{ key }}.</strong>
+                            {{ option }}
+
+                        </label>
+
+                    {% endfor %}
+
+                </div>
+
+            {% endfor %}
+
+            <button type="submit"
+                    class="button primary"
+                    style="width:100%; margin-top:25px;">
+
+                Submit Quiz {{ chapter_number }} →
+
+            </button>
+
+        </form>
+
+    </article>
+
+</section>
+
+{% endblock %}
